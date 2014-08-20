@@ -1,0 +1,7 @@
+﻿@using BlogEngine.Core
+@using rtur.net.NivoSlider
+
+@helper GetSlides(string id, string width = "960", string height = "370")
+{
+    __razor_helper_writer.Write(Repository.GetSlider(id, width, height));
+}

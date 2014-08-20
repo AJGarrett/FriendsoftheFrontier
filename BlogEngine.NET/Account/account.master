@@ -1,0 +1,49 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="account.master.cs" Inherits="Account.AccountMasterPage" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title>Account Login</title>
+    <meta name="description" content="Account Login Membership User Password" />
+    <link href="account.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/themes/FOTF/css/reset.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/FOTF/style.css" type="text/css" />
+    <!-- This is where you choose your color scheme - Just change the stylesheet name to the color you want. -->
+    <link rel="stylesheet" href="/themes/FOTF/css/orange.css" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server"></asp:ContentPlaceHolder>
+</head>
+<body id="home-page">
+    <form id="Form1" runat="Server" class="body">
+    
+  <div id="site-wrapper">
+    <!-- header START here -->
+      <div id="header">
+        <!-- container START here -->
+        <div class="container">
+          <!-- top START here -->
+          <div id="top">
+            <!-- logo START here -->
+            <div id="logo">
+              <h1><a href="<%=Utils.AbsoluteWebRoot %>"><img src="/themes/FOTF/images/logo.png" alt="Robust" /></a></h1>
+              <p class="tagline"><%=BlogSettings.Instance.Description %></p>
+            </div>
+            <div class="loginDisplay">
+                <a href="<%= Utils.RelativeWebRoot %>default.aspx">Return Home</a>
+            </div>
+        </div>
+        <div class="clear"></div>
+        <div class="main">
+            <div id="StatusBox">
+                <div id="AdminStatus" runat="server" style="display:none"></div>
+            </div>
+            <asp:ContentPlaceHolder ID="MainContent" runat="server"/>
+        </div>
+    </div>
+    </div>
+    </div>
+    </form>
+</body>
+</html>
+

@@ -1,0 +1,266 @@
+﻿<%@ master language="C#" autoeventwireup="true" inherits="StandardSite, App_Web_cqu3w1tr" %>
+<%@ Import Namespace="BlogEngine.Core" %>
+<%@ Register TagPrefix="blog" Namespace="rtur.net.NivoSlider" %>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head runat="server" profile="http://gmpg.org/xfn/11">
+    <title>Friends of the Frontier</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/themes/FOTF/css/reset.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/FOTF/style.css" type="text/css" />
+    <!-- This is where you choose your color scheme - Just change the stylesheet name to the color you want. -->
+    <link rel="stylesheet" href="/themes/FOTF/css/orange.css" type="text/css" />
+    <!-- You can choose from the following: red, orange, green, blue and violet. -->
+    <link rel="stylesheet" href="/themes/FOTF/css/superfish.css" type="text/css" />
+    <link rel="stylesheet" href="/themes/FOTF/css/prettyPhoto.css" type="text/css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="/themes/FOTF/css/jquery-ui-1.8.17.custom.css" />
+    <link rel="stylesheet" href="/themes/FOTF/css/coin-slider-styles.css" type="text/css" />
+    <link rel="stylesheet" href="/styles/formee-structure.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/styles/formee-style.css" type="text/css" media="screen" />
+    <link rel="stylesheet" href="/styles/jquery.validity.css" type="text/css" media="screen" />
+    <!--[if lt IE 8]>
+	    <link rel="stylesheet" type="text/css" href="css/ie7.css">
+    <![endif]-->
+    <!-- Scripts -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jquery.cycle.all.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jquery.easing.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jqFancyTransitions.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/coin-slider.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jquery-ui-1.8.17.custom.min.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/ui.tabs.min.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/ui.dialog.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jquery.prettyPhoto.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/superfish.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/cufon-yui.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/Delicious.font.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/jquery.form.js"></script>
+    <script type="text/javascript" src="/themes/FOTF/js/bluz.js"></script>
+
+</head>
+<% if (Utils.IsCurrentRequestForHomepage) { %> 
+ <body id="home-page">
+ <% } else  { %>
+ <body id="sub-page">
+ <% } %>
+  <form runat="Server" class="body">
+    
+  <div id="site-wrapper">
+    <!-- header START here -->
+      <div id="header">
+        <!-- container START here -->
+        <div class="container">
+          <!-- top START here -->
+          <div id="top">
+            <!-- logo START here -->
+            <div id="logo">
+              <h1><a href="<%=Utils.AbsoluteWebRoot %>"><img src="/themes/FOTF/images/logo.png" alt="Robust" width="400px" /></a></h1>
+              <p class="tagline"><%=BlogSettings.Instance.Description %></p>
+            </div>
+            <!-- logo END here -->    
+            <!-- main-nav START here -->
+        <div id="main-nav">
+          <ul class="sf-menu">
+            <li class="current_page_item"><a href="/default.aspx">Home</a></li>
+              <li><a href="#">History</a>
+              <ul>
+                <li><a href="/page/Frontier-History.aspx">Frontier History</a></li>
+                <li><a href="/page/Program-History.aspx">Program History</a></li>
+                <li><a href="/page/Program-Mission.aspx">Mission</a></li>
+              </ul>
+            </li>
+            <li><a href="/photos.aspx">Photos</a></li>
+            <li><a href="/membership.aspx">Membership</a></li>
+            <li><a href="/contact.aspx">Contact</a></li>
+            <% if (HttpContext.Current.User.Identity.IsAuthenticated)
+               { %>
+                <li><a href="/members/home.aspx">Member's Menu</a>
+                  <ul>
+                    <li><a href="/members/gb/">Guestbook</a></li>
+                    <li><a href="/members/hotb/">Heart of the Bear</a></li>
+                    <li><a href="/members/forum/forum.aspx?g=forum">Forums</a></li>
+                    <li><a href="/members/Lookup.aspx">Member's Lookup</a></li>
+                    <li><a href="/membership.aspx">My Profile</a></li>
+                    <% if (HttpContext.Current.User.IsInRole("Administrators") || HttpContext.Current.User.IsInRole("Editors"))
+                       { %>
+                        <li><a href="/Admin/">Site Administration</a></li>    
+                    <% } %>
+                    <li><a href="/Account/Logout.cshtml">Logoff</a></li>
+                </ul>
+               </li>
+            <% }
+               else
+               { %>
+                <li><a href="/Members/home.aspx">Member's Login</a></li>
+            <% } %>
+          </ul>
+        </div>
+        <!-- main-nav END here -->
+      </div>
+      <!-- top END here -->
+      <% if (Utils.IsCurrentRequestForHomepage)
+         { %>
+          <!-- slider-holder START here -->
+          <script type="text/javascript" src="/Scripts/jquery.nivo.slider.pack.js"></script>
+          <div id="slider-holder">
+              <blog:NivoControl ID="slider1" Width="960" Height="388" runat="server" />
+          </div>
+          <!-- slider-holder END here -->
+        <% }
+         else
+         { %>
+            <div id="pagename">
+                <h2><span>
+                    <% if (Request.Url.AbsolutePath.Contains("/post.aspx")) { Response.Write("Post"); } else if (Request.Url.AbsolutePath.Contains("/page.aspx")) { Response.Write("Page"); } %>
+                </span></h2>
+                <p class="tagline"></p>
+              </div>
+
+        <% } %>
+    </div>
+    <!-- container END here -->
+  </div>
+  <!-- header END here -->
+  <!-- content START here -->  
+  <div id="content">
+    <!-- container START here -->
+    <div class="container">
+      <!-- main-colum START here -->
+      <% if (Request.Url.AbsolutePath.Contains("/post.aspx") || Request.Url.AbsolutePath.Contains("/page.aspx") || Request.Url.AbsolutePath.ToLower().Contains("/members/home.aspx") || Utils.IsCurrentRequestForHomepage)
+         { %>
+         <div id="main-colum" class="two_third">
+      <% }
+         else
+         { %>
+        <div id="main-colum" class="full-width">
+      <% }
+          %>      <asp:ContentPlaceHolder ID="cphBody" runat="server" />
+        </div>
+      <!-- main-colum END here -->
+      <% if (Request.Url.AbsolutePath.Contains("/post.aspx") || Request.Url.AbsolutePath.Contains("/page.aspx") || Utils.IsCurrentRequestForHomepage)
+         { %>
+              <!-- sidebar START here -->
+              <div id="sidebar" class="one_third no-margin">
+                <ul>
+                  <% if (Request.Url.AbsolutePath.Contains("/page.aspx")) { %>
+                        <% =GetPageMenu() %>
+                  <% } %>
+                  <!-- widget START here -->
+                  <blog:WidgetZone ID="WidgetZone1" runat="server" />
+                  <!-- widget END here -->
+                </ul>
+              </div>
+              <!-- sidebar END here -->
+      <% }
+         else if (Request.Url.AbsolutePath.ToLower().Contains("/members/home.aspx"))
+         {%>
+            <!-- sidebar START here -->
+          <div id="sidebar" class="one_third no-margin">
+            <ul><!-- widget START here -->
+              <li class="widget" id="Li1">
+                <div class="inside">
+                  <h3>Member's Tools</h3>
+                  <ul>
+                    <li><a href="/members/gb/">Guestbook</a></li>
+                    <li><a href="/members/hotb/">Heart of the Bear</a></li>
+                    <li><a href="/members/forum/forum.aspx?g=forum">Forums</a></li>
+                    <li><a href="/members/Lookup.aspx">Members Lookup</a></li>
+                    <li><a href="/membership.aspx">Edit My Profile</a></li>
+                  </ul>
+                </div>
+              </li>
+              <!-- widget END here -->
+            </ul>
+          </div>
+          <!-- sidebar END here -->
+      <% } %>
+    </div>
+    <!-- container END here -->
+  </div>
+  <!-- content END here -->
+</div>
+<!-- site-wrapper END here -->
+<!-- footer-wrapper START here -->
+<div id="footer-wrapper">
+  <!-- container START here -->
+  <div class="container">
+    <!-- footer-widget #1 START here -->
+    <div class="footer-widget one_third">
+      <h3>Pages</h3>
+      <ul>
+        <li><a href="/default.aspx">Home</a></li>
+        <li><a href="/pages/Frontier-History.aspx">Frontier History</a></li>
+        <li><a href="/page/Program-History.aspx">Program History</a></li>
+        <li><a href="/membership.aspx">Membership</a></li>
+        <li><a href="/photos.aspx">Photos</a></li>
+        <li><a href="/contact.aspx">Contact</a></li>
+      </ul>
+    </div>
+    <!-- footer-widget #1 END here -->
+    <!-- footer-widget #2 START here -->
+    <div class="footer-widget one_third">
+        <% if (HttpContext.Current.User.Identity.IsAuthenticated)
+               { %>
+                <h3>Member's Menu</h3>
+                  <ul>
+                    <li><a href="/members/">News</a></li>
+                    <li><a href="/members/gb/">Guestbook</a></li>
+                    <li><a href="/members/hotb/">Heart of the Bear</a></li>
+                    <li><a href="/members/forum/forum.aspx?g=forum">Forums</a></li>
+                    <li><a href="/members/Lookup.aspx">Member's Lookup</a></li>
+                    <li><a href="/membership.aspx">My Profile</a></li>
+                    <% if (HttpContext.Current.User.IsInRole("Administrators") || HttpContext.Current.User.IsInRole("Editors"))
+                       { %>
+                        <li><a href="/Admin/">Site Administration</a></li>    
+                    <% } %>
+                    <li><a href="/Account/Logout.cshtml">Logoff</a></li>
+                </ul>
+               </li>
+            <% } %>
+    </div>
+    <!-- footer-widget #3 END here -->
+    <!-- footer-widget #4 START here -->
+    <div class="footer-widget one_third no-margin">
+      <h3>All Rights Reserved</h3>
+      <p>&copy; 2004 - <script language="javascript" type="text/javascript">
+                           var dteNow = new Date();
+                           var intYear = dteNow.getFullYear();
+                           document.write(intYear); 
+</script>   All rights reserved to friendsofthefrontier.org</p>
+      <%--<ul class="social-links">
+        <li><a href="#"><img src="images/social/facebook_16.png" alt="" /></a></li>
+        <li><a href="#"><img src="images/social/twitter_16.png" alt="" /></a></li>
+        <li><a href="#"><img src="images/social/flickr_16.png" alt="" /></a></li>
+        <li><a href="#"><img src="images/social/myspace_16.png" alt="" /></a></li>
+        <li><a href="#"><img src="images/social/rss_16.png" alt="" /></a></li>
+        <li><a href="#"><img src="images/social/skype_16.png" alt="" /></a></li>
+      </ul>--%>
+    </div>
+    <!-- footer-widget #4 END here -->
+  </div>
+  <!-- container END here -->
+</div>
+<!-- footer-wrapper END here -->
+
+<script type="text/javascript">
+    Cufon.now();
+
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-326170-22']);
+    _gaq.push(['_trackPageview']);
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+</script>
+</form>
+</body>
+</html>
+
+
+      
+      
+    

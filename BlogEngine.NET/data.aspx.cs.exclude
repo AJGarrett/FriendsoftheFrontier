@@ -1,0 +1,312 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Web.Security;
+
+//using FOTFOld;
+using CLR;
+using MailChimp;
+
+using YAF;
+using YAF.Utils;
+using YAF.Providers.Membership;
+using YAF.Providers.Roles;
+using YAF.Core;
+
+public partial class data : System.Web.UI.Page
+{
+    protected void Page_Load(object sender, EventArgs e)
+    {
+       // Response.Write(FOTFOld.Members.GetAll().Count.ToString() + "<br /><br />");
+
+        //Response.Write(MoveMembers());
+        //UpdateMembership();
+        //DeleteOld();
+        MailChimp();
+        Response.Write(CLR.Members.GetAll().Count.ToString());
+        //ForumUsers();
+        //Guestbook();
+        //ForumData();
+    }
+
+    //protected void ForumData()
+    //{
+        
+    //    List<FOTFOld.Members> old = FOTFOld.Members.GetAll();
+    //    IEnumerable<YAF.Types.Objects.TypedUserList> dt = YAF.Classes.Data.LegacyDb.UserList(1, null, null, null, null, null);
+
+    //    int imported = 0;
+
+    //    foreach (FOTFOld.Forums f in FOTFOld.Forums.GetAll())
+    //    {
+    //        FOTFOld.Members m = old.Find(delegate(FOTFOld.Members m1) { return m1.ID == f.CreatorID; });
+    //        YAF.Types.Objects.TypedUserList user = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == m.Email; });
+
+    //        if (f.Description == null) { f.Description = ""; }
+    //        long fID = YAF.Classes.Data.LegacyDb.forum_save(0, 2, null, f.Title, f.Description, user.UserID, false, false, false, false, 4, null, null, null, null, false);
+
+    //        foreach (Threads t in f.Threads)
+    //        {
+    //            if (t.Posts.Count > 0)
+    //            {
+    //                FOTFOld.Members tm = old.Find(delegate(FOTFOld.Members m1) { return m1.ID == t.Posts[0].MemberID; });
+    //                YAF.Types.Objects.TypedUserList user1 = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == tm.Email; });
+    //                long mID = 0;
+
+    //                long topicID = YAF.Classes.Data.LegacyDb.topic_save(Convert.ToInt32(fID), t.Title, "", "", "", t.Posts[0].Post ?? "", user1.UserID, 0, "", Request.UserHostAddress, t.Posts[0].Date, 0, 22, ref mID);
+    //                imported++;
+    //                t.Posts.RemoveRange(0, 1);
+
+    //                if (t.Posts.Count > 0)
+    //                {
+    //                    foreach (Posts p in t.Posts)
+    //                    {
+    //                        FOTFOld.Members pm = old.Find(delegate(FOTFOld.Members m1) { return m1.ID == p.MemberID; });
+    //                        YAF.Types.Objects.TypedUserList user2 = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == pm.Email; });
+
+    //                        if (p.Post != "" && user2 != null)
+    //                        {
+    //                            YAF.Classes.Data.LegacyDb.message_save(topicID, user2.UserID, p.Post, "", Request.UserHostAddress, p.Date, null, 22, ref mID);
+    //                            imported++;
+    //                        }
+    //                    }
+    //                }
+    //            }
+                
+    //        }
+    //    }
+
+    //    Response.Write(imported.ToString() + " posts imported;");
+    //}
+
+    //protected void ForumUsers()
+    //{
+    //    IEnumerable<YAF.Types.Objects.TypedUserList> dt = YAF.Classes.Data.LegacyDb.UserList(1, null, null, null, null, null);
+
+    //    //YAF.Types.Objects.TypedUserList user = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == m.Email; });
+
+    //    List<CLR.Members> allM = CLR.Members.GetAll();
+    //    allM.RemoveRange(0, 2);
+
+    //    foreach (CLR.Members m in allM)
+    //    {
+    //        YAF.Types.Objects.TypedUserList user = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == m.Email; });
+
+    //        if (user == null)
+    //        {
+    //            YafMembershipProvider mb = (YafMembershipProvider)System.Web.Security.Membership.Providers["YafMembershipProvider"];
+    //            int? forumUserID = 0;
+    //            string sUserName = m.Email;
+
+    //            MembershipCreateStatus status;
+    //            MembershipUser forumUser = mb.CreateUser(sUserName, sUserName, sUserName, "question", "answer", true, null, out status);
+
+    //            // create the user in the YAF DB as well as sync roles...
+    //            forumUserID = RoleMembershipHelper.CreateForumUser(forumUser, 1);
+
+    //            RoleMembershipHelper.SetupUserRoles(1, sUserName);
+    //            //RoleMembershipHelper.AddUserToRole(sUserName, "Registered");
+
+    //            // create empty profile just so they have one
+    //            YafUserProfile userProfile = YafUserProfile.GetProfile(sUserName);
+    //            userProfile.Homepage = "";
+
+    //            // setup their inital profile information
+    //            userProfile.Save();
+    //        }
+    //    }        
+
+
+    //    //boards
+    //    //Threads
+    //    //Posts
+    //}
+
+    //protected void Guestbook()
+    //{
+    //    GuestbookComments.DeleteAllGBComments(1);
+
+    //    List<CLR.Members> allM = CLR.Members.GetAll();
+    //    List<FOTFOld.Members> old = FOTFOld.Members.GetAll();
+
+    //    foreach (FOTFOld.Guestbook g in FOTFOld.Guestbook.GetAll())
+    //    {
+    //        FOTFOld.Members m = old.Find(delegate(FOTFOld.Members fo) { return g.MemberID == fo.ID; });
+    //        if (m != null)
+    //        {
+    //            CLR.Members m1 = allM.Find(delegate(CLR.Members m2) { return m2.Email == m.Email; });
+
+    //            if (m1 != null)
+    //            {
+    //                GuestbookComments gb = new GuestbookComments();
+    //                gb.Comment = g.Comments;
+    //                gb.DateCreated = g.Date;
+    //                gb.GBID = 1;
+    //                gb.MemberID = m1.MemberID;
+    //                gb.Save();
+    //            }
+    //        }
+    //    }
+        
+    //}
+
+    protected void MailChimp()
+    {
+        RegexUtilities r = new RegexUtilities();
+        List<CLR.Members> allM = CLR.Members.GetAll();
+        foreach (CLR.Members m in allM)
+        {
+            var subscribeOptions =
+                new MailChimp.Types.Opt<MailChimp.Types.List.SubscribeOptions>(
+                    new MailChimp.Types.List.SubscribeOptions
+                    {
+                        SendWelcome = false,
+                        UpdateExisting = true,
+                    });
+
+            var merges = new MailChimp.Types.Opt<MailChimp.Types.List.Merges>(null);
+            //new MailChimp.Types.Opt<MailChimp.Types.List.Merges>();
+            //    new MailChimp.Types.List.Merges
+            //        {
+            //            {"NAME", "andyjgarrett@gmail.com"}
+            //        });
+
+            if (r.IsValidEmail(m.Email) && m.Email != "baseballdude1107@gmaill.com")
+            {
+                MCApi m1 = new MCApi("a3182720930666de2d4cfaa730275f81-us2", true);
+                bool testSub = m1.ListSubscribe("c9ec97c24a", m.Email, merges, subscribeOptions);
+            }
+            //Response.Write(testSub.ToString());
+        }
+    }
+
+    //protected void DeleteOld()
+    //{
+    //    List<CLR.Members> allM = CLR.Members.GetAll();
+    //    List<FOTFOld.Members> old = FOTFOld.Members.GetAll();
+
+    //    foreach (CLR.Members m in allM)
+    //    {
+    //        if (old.Find(delegate(FOTFOld.Members m1) { return m1.Email == m.Email; }) == null)
+    //        {
+    //            Membership.DeleteUser(m.Email, true);
+
+    //            IEnumerable<YAF.Types.Objects.TypedUserList> dt = YAF.Classes.Data.LegacyDb.UserList(1, null, null, null, null, null);
+
+    //            YAF.Types.Objects.TypedUserList user = dt.ToList().Find(delegate(YAF.Types.Objects.TypedUserList u) { return u.Email == m.Email; });
+
+    //            if (user != null && user.ProviderUserKey != "") { YAF.Classes.Data.LegacyDb.user_delete(user.UserID); }
+
+    //            m.Delete();
+    //        }
+    //    }
+    //}
+
+
+    //protected void UpdateMembership()
+    //{
+    //    List<CLR.Members> allM = CLR.Members.GetAll();
+    //    List<FOTFOld.Members> old = FOTFOld.Members.GetAll();
+    //    foreach (CLR.Members m in allM)
+    //    {
+    //        FrontierHistory f = FrontierHistory.GetSingle(m.MemberID);
+
+    //        MembershipUser u = Membership.GetUser(m.Email);
+    //        if (u == null)
+    //        {
+    //            FOTFOld.Members o = old.Find(delegate(FOTFOld.Members fo) { return fo.Email == m.Email; });
+
+    //            if (o != null && o.Password.Length > 2)
+    //            {
+    //                Membership.CreateUser(m.Email, o.Password, m.Email);
+    //                Roles.AddUserToRole(m.Email, "FOTFUser");
+    //                if (f.MMYr != 0)
+    //                    Roles.AddUserToRole(m.Email, "MountainMan");
+
+    //                Response.Write("Created: " + m.Email + "<br />");
+    //            }
+    //        }
+    //        else
+    //        {
+    //            if (!Roles.IsUserInRole(m.Email, "FOTFUser"))
+    //                Roles.AddUserToRole(m.Email, "FOTFUser");
+    //            if (f.MMYr != 0 && !Roles.IsUserInRole(m.Email, "MountainMan"))
+    //                Roles.AddUserToRole(m.Email, "MountainMan");
+    //        }
+    //    }
+    //}
+
+
+    //protected string MoveMembers()
+    //{
+    //    int MemberCount = 0;
+
+    //    List<CLR.Members> allM = CLR.Members.GetAll();
+    //    //allM[2].Delete();
+
+    //    foreach (FOTFOld.Members o in FOTFOld.Members.GetAll())
+    //    {
+    //        if (o.Email != null && o.Email != "" && allM.Find(delegate (CLR.Members m1) {return m1.Email == o.Email; }) == null)
+    //        {
+    //            CLR.Members m = new CLR.Members();
+    //            m.FirstName = o.FName;
+    //            m.LastName = o.LName;
+    //            m.Nickname = o.NickName;
+    //            m.Email = o.Email;
+    //            m.Address = o.Address;
+    //            m.City = o.City;
+    //            m.State = o.State;
+    //            m.CurrentTroop = o.Troop;
+    //            m.Comments = o.Comments;
+    //            m.Save();
+
+    //            FrontierHistory f = new FrontierHistory();
+    //            f.MemberID = m.MemberID;
+
+    //            if (TestINT(o.PioneerYr)) { f.PioneerYr = Convert.ToInt32(o.PioneerYr); }
+    //            if (TestINT(o.PioneerWk)) { f.PioneerWk = Convert.ToInt32(o.PioneerWk); }
+    //            if (TestINT(o.TrapperWk)) { f.TrapperWk = Convert.ToInt32(o.TrapperWk); }
+    //            if (TestINT(o.TrapperYr)) { f.TrapperYr = Convert.ToInt32(o.TrapperYr); }
+    //            if (TestINT(o.MMYr)) { f.MMYr = Convert.ToInt32(o.MMYr); }
+    //            if (TestINT(o.MMWk)) { f.MMWk = Convert.ToInt32(o.MMWk); }
+    //            f.Save();
+
+    //            //Security
+    //            MembershipUser u = Membership.GetUser(m.Email);
+    //            if (u == null && o.Password.Length > 2)
+    //            {
+    //                Membership.CreateUser(m.Email, o.Password, m.Email);
+    //                Roles.AddUserToRole(m.Email, "FOTFUser");
+    //                if (f.MMYr != 0)
+    //                    Roles.AddUserToRole(m.Email, "MountainMan");
+    //            }
+    //            else
+    //            {
+    //                if (!Roles.IsUserInRole(m.Email,"FOTFUser"))
+    //                    Roles.AddUserToRole(m.Email, "FOTFUser");
+    //                if (f.MMYr != 0)
+    //                    Roles.AddUserToRole(m.Email, "MountainMan");
+    //            }
+
+
+    //            //MailChimp
+
+    //            MemberCount++;
+    //        }
+
+    //    }
+
+
+    //    return "Successfully Imported: " + MemberCount.ToString() + " members";
+    //}
+
+    protected bool TestINT(string value)
+    {
+        int number;
+        bool result = Int32.TryParse(value, out number);
+        return result;
+    }
+}
